@@ -53,6 +53,7 @@ Queue.completedLife = 30; /* days to keep completed tasks */
 
 ##Examples
 
+```javascript
 if (Meteor.isServer) {
   Meteor.startup(function () {
    Queue.loglevel = 1;
@@ -75,7 +76,7 @@ if (Meteor.isServer) {
     Meteor.setInterval(function(){Queue.purgeCompletedTasks()}, 86400000); /* once a day */
     Meteor.setInterval(function(){Queue.purgeLogs()}, 86400000); /* once a day */
 }
-
+```
 ##TODO
 
 - Improve documentation
