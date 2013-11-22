@@ -14,12 +14,14 @@ Job Queue for Meteor.js
 - fairly complete tests
 
 
-##Quick Start
-mrt add queue (once it's in atmosphere)
-and you are ready!
+##Installation
+```sh
+mrt add queue
+```
 
-add to a server or common file:
+add to a server.js or common file:
 
+```javascript
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
@@ -28,11 +30,25 @@ if (Meteor.isServer) {
 	  Queue.run();
   });
 }
+```
 
-
-##Installation
 
 ##Options
+
+Queue.loglevel = 3; /* 3 only includes lock conflicts.  2,3 includes successes */
+
+Queue.logLife = 30; /* days to keep logfiles */
+
+Queue.defaultPriority = 5;/* 1 is highest */
+
+Queue.defaultStatus = "pending"; /* by changing this to some other new word, you can make sure queue items are "blessed" in "pending" through another process. */
+
+Queue.keepsuccess = true; /* keep successful in queue as record */
+
+Queue.lockLife = 30; /* minutes to keep lockfiles */
+
+Queue.completedLife = 30; /* days to keep completed tasks */
+
 
 
 ##Examples
@@ -59,11 +75,14 @@ if (Meteor.isServer) {
     Meteor.setInterval(function(){Queue.purgeCompletedTasks()}, 86400000); /* once a day */
     Meteor.setInterval(function(){Queue.purgeLogs()}, 86400000); /* once a day */
 }
+
 ##TODO
+
+- Improve documentation
 - Add cron-compatible scheduler
-- Better configuration options?
 - Log Viewer
 - UI to Purge old Queues/edit pending jobs
-- Method to include queue-ready functions that can be added to queue via UI
+- Method to include queue-ready functions that can be added to queue via UI menus
+
 
 

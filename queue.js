@@ -15,9 +15,9 @@ if (typeof Queue.keepsuccess === "undefined") {
   Queue.keepsuccess = true; /* keep successful in queue as record */
 }
 if (typeof Queue.lockLife === "undefined") {
-  Queue.lockLife = 30; /* minutes to keep lockfiles */ 
+  Queue.lockLife = 30; /* minutes to keep lockfiles */
 }
 if (typeof Queue.completedLife === "undefined") {
-  Queue.completedLife = 30; /* days to keep completed tasks */ 
+  Queue.completedLife = 30; /* days to keep completed tasks */
 }
 
