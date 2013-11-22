@@ -24,18 +24,8 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
 	  Queue.add({command:'console.log("queue called now");'});
-	  Queue.add({command:'console.log("queue called again");'});
-	  Queue.add({command:'console.log("first queue called");',priority:1});
 	  console.log('about to run queue');
 	  Queue.run();
-	  console.log('done with the first run');
-	  future = new Date();
-	  future.setMinutes(future.getMinutes() + 1);
-	  Queue.add({command:'console.log("queue called in THE FUTURE");',execute_after:future});
-	  future.setMinutes(future.getMinutes() + 3);
-	  Queue.add({command:'console.log("queue called in THE FUTURE a bit later";',execute_after:future});
-	  Meteor.setInterval(function(){Queue.run()}, 1000);
-	  Meteor.setInterval(function(){Queue.purgeLogs()}, 86400000); /* once a day */
   });
 }
 
@@ -44,8 +34,32 @@ if (Meteor.isServer) {
 
 ##Options
 
-##TODO
 
+##Examples
+
+if (Meteor.isServer) {
+  Meteor.startup(function () {
+   Queue.loglevel = 1;
+    Queue.keepsuccess = true;
+    // code to run on server at startup
+    Queue.add({command:'console.log("queue called now");'});
+    Queue.add({command:'console.log("last queue called");',priority:10});
+    Queue.add({command:'console.log("queue called again");'});
+    Queue.add({command:'console.log("first queue called");',priority:1});
+    console.log('about to run queue');
+    Queue.run();
+    console.log('done with the first run');
+    future = new Date();
+    future.setMinutes(future.getMinutes() + 1);
+    Queue.add({command:'console.log("queue called in THE FUTURE");',execute_after:future});
+    future.setMinutes(future.getMinutes() + 1);
+    Queue.add({command:'console.log("THE FUTURE a bit later");',execute_after:future});
+    Meteor.setInterval(function(){Queue.run()}, 1000); /* once a minute */
+    Meteor.setInterval(function(){Queue.purgeOldLocks()}, 1000); /* once a minute */
+    Meteor.setInterval(function(){Queue.purgeCompletedTasks()}, 86400000); /* once a day */
+    Meteor.setInterval(function(){Queue.purgeLogs()}, 86400000); /* once a day */
+}
+##TODO
 - Add cron-compatible scheduler
 - Better configuration options?
 - Log Viewer

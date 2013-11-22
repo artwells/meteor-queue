@@ -135,7 +135,7 @@ Tinytest.add(
 Tinytest.add(
 	'queue - retrieve relevant entries',
 	function (test) {
-		var testentry =  [];
+		var testentry =  {};
 		var after = new Date();
 		after.setDate(after.getDate() + 3000); //absurdly ahead of time to check a specific group
 		var priorities = [5, 8, 2];
@@ -156,14 +156,18 @@ Tinytest.add(
 		entriestoremove.push(res);
 
         after.setDate(after.getDate() + 1); //make it look at a date after 'after'
-		var all = Queue.get({execute_after:after });
+		var all = Queue.get({execute_after: after});
 		var countresult = 0;
 		priorities.sort();
-		all.forEach(function(entry){
-			test.equal(entry.priority,priorities[countresult]);
-			countresult = countresult + 1;
-			entriestounlock.push(entry);
-		});
+		try {
+			all.forEach(function(entry){
+				test.equal(entry.priority,priorities[countresult]);
+				countresult = countresult + 1;
+				entriestounlock.push(entry);
+			});
+		}catch (e){
+			test.isFalse(e,'failed to iterate over the group');
+		}
 		test.equal(countresult,3, 'more or less than one result found');
 	}
 );
@@ -225,6 +229,21 @@ Tinytest.add(
 	}
 );
 
+Tinytest.add(
+	'queue - check lock delete',
+	function (test) {
+		var past = new Date();
+		var entry = [];
+		past.setDate(past.getDate() - 3000); //absurdly ahead of time to check a specific group
+		entry.command = "return true;";
+		entry.lock_name = 'testlock';
+		Queue.add(entry);
+		past.setDate(past.getDate() + 1); //absurdly ahead of time to check a specific group
+		Queue.purgeOldLocks(past);
+		allcount = Queue.entries.find({created_at: {$lte: past}, lockname: {$exists: true}}).count();
+		test.equal(allcount, 0, 'failed to clear old logs');
+	}
+);
 
 Tinytest.add(
 	'queue - check log failures',
