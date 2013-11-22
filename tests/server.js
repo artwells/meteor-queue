@@ -34,7 +34,7 @@ Tinytest.add(
 		test.isTrue(res, 'failed minimal addition');
 		back=Queue.entries.findOne({_id:res});
 		/* just a small sanity check */
-		test.isTrue((Number(testdate) - Number(back.execute_after)) < 1 );
+		test.isTrue(((Number(testdate) - Number(back.execute_after)) < 1), "execute after failed" );
 	}
 );
 
