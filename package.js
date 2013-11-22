@@ -3,7 +3,8 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-	api.add_files('lib/queue.js', 'server');
+	api.use(['livedata', 'mongo-livedata'], 'server');
+	api.add_files('queue.js', 'server');
 	api.add_files('lib/model.js', 'server');
 	api.add_files('lib/server/server.js','server');
 	api.export('Queue', 'server');
