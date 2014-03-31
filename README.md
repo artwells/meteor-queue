@@ -1,7 +1,7 @@
 meteor-queue
 ============
 
-Job Queue for Meteor.js
+Job Queue for Meteor.js, backed by Mongo.
 
 ##Features
 - queued tasks executed by set priorities
@@ -11,6 +11,7 @@ Job Queue for Meteor.js
 - queue-wide and entry-level locking to avoid processing
 - ability to requeue failed jobs at event-level configurable interval (for jobs set to fail at high-load or peak times)
 - optional "non-ready" default state -- allowing some tests to require operational blessing
+- queues are stored in Mongo collections (`queue` and `queuelog`)
 - fairly complete tests
 
 
@@ -25,33 +26,33 @@ add to a server.js or common file:
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
-	  Queue.add({command:'console.log("queue called now");'});
-	  console.log('about to run queue');
-	  Queue.run();
+    Queue.add({command:'console.log("queue called now");'});
+    console.log('about to run queue');
+    Queue.run();
   });
 }
 ```
 
 
-##Options
+## Options
 
-Queue.loglevel = 3; /* 3 only includes lock conflicts.  2,3 includes successes */
+* `Queue.loglevel`,  default `3`. `3` only includes lock conflicts.  2, 3 includes successes.
 
-Queue.logLife = 30; /* days to keep logfiles */
+* `Queue.logLife`, default `30`. Days to keep logfiles.
 
-Queue.defaultPriority = 5;/* 1 is highest */
+* `Queue.defaultPriority`, default `5`. 1 is highest.
 
-Queue.defaultStatus = "pending"; /* by changing this to some other new word, you can make sure queue items are "blessed" in "pending" through another process. */
+* `Queue.defaultStatus`, default `pending`. By changing this to some other new word, you can make sure queue items are "blessed" in "pending" through another process.
 
-Queue.keepsuccess = true; /* keep successful in queue as record */
+* `Queue.keepsuccess`, default `true`. Keep successful jobs in the queue for the record.
 
-Queue.lockLife = 30; /* minutes to keep lockfiles */
+* `Queue.lockLife`, default `30`. Minutes to keep lockfiles.
 
-Queue.completedLife = 30; /* days to keep completed tasks */
+* `Queue.completedLife`, default `30`. Days to keep completed tasks.
 
 
 
-##Examples
+## Examples
 
 ```javascript
 if (Meteor.isServer) {
@@ -77,13 +78,10 @@ if (Meteor.isServer) {
     Meteor.setInterval(function(){Queue.purgeLogs()}, 86400000); /* once a day */
 }
 ```
-##TODO
+## TODO
 
 - Improve documentation
 - Add cron-compatible scheduler
 - Log Viewer
 - UI to Purge old Queues/edit pending jobs
 - Method to include queue-ready functions that can be added to queue via UI menus
-
-
-
