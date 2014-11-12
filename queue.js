@@ -5,6 +5,13 @@ if (typeof Queue.loglevel === "undefined") {
 if (typeof Queue.logLife === "undefined") {
   Queue.logLife = 30; /* days to keep logfiles */
 }
+if (typeof Queue.ephemeralLogLife === "undefined") {
+  Queue.ephemeralLogLife = 1800000; /* microseconds to keep ephemeral log statuses */
+}
+if (typeof Queue.ephemeralLogStatuses === "undefined") {
+  Queue.ephemeralLogStatuses = ['lockfailed','success']; /* statuses to purge from logs quickly */
+}
+
 if (typeof Queue.defaultPriority === "undefined") {
   Queue.defaultPriority = 5;/* 1 is highest */
 }
@@ -20,4 +27,3 @@ if (typeof Queue.lockLife === "undefined") {
 if (typeof Queue.completedLife === "undefined") {
   Queue.completedLife = 30; /* days to keep completed tasks */
 }
-
