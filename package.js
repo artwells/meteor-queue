@@ -1,6 +1,6 @@
 Package.describe({
   summary: "job queue for meteor",
-  version: "0.0.3",
+  version: "0.0.4",
   git: "https://github.com/artwells/meteor-queue.git"
 });
 
