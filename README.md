@@ -18,7 +18,7 @@ Job Queue for Meteor.js, backed by Mongo.
 
 ##Installation
 ```sh
-meteor add queue
+meteor add artwells:queue
 ```
 
 add to a server.js or common file:
