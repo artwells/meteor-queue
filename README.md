@@ -18,7 +18,7 @@ Job Queue for Meteor.js, backed by Mongo.
 
 ##Installation
 ```sh
-meteor add queue
+meteor add artwells:queue
 ```
 
 add to a server.js or common file:
@@ -56,6 +56,36 @@ if (Meteor.isServer) {
 * `Queue.completedLife`, default `30`. Days to keep completed tasks.
 
 
+## UI using Houston:admin (Optional)
+
+"Houston is a zero-config Meteor Admin, modeled after Django Admin, intended as a simple way for developers to give end-users (or themselves) an easy way to view and manipulate their app's data.""
+https://github.com/gterrono/houston
+
+Houston can be used for CRUD of queued jobs.  It can also be used to view logs.
+
+First, you need houston
+
+```sh
+meteor add houston:admin
+```
+
+Then in some file available on the server:
+
+
+```javascript
+if (Meteor.isServer) {
+	if (typeof Houston != "undefined"  ) {
+		Houston.methods("queue", {
+			"Run Now": function (queue) {
+				Queue.process(queue);
+				return queue.command + " completed.";
+			}
+			});
+		}
+
+	}
+```
+
 
 ## Examples
 
@@ -85,8 +115,5 @@ if (Meteor.isServer) {
 ```
 ## TODO
 
-- Improve documentation
-- Add cron-compatible scheduler
-- Log Viewer
 - UI to Purge old Queues/edit pending jobs
 - Method to include queue-ready functions that can be added to queue via UI menus
