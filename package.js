@@ -10,6 +10,7 @@ Package.on_use(function (api) {
   api.add_files('queue.js', 'server');
   api.add_files('lib/model.js', 'server');
   api.add_files('lib/server/server.js', 'server');
+  api.add_files('lib/client/client.js', 'client');
   api.export('Queue', 'server');
 });
 
