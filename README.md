@@ -14,6 +14,7 @@ Job Queue for Meteor.js, backed by Mongo.
 - queues are stored in Mongo collections (`queue` and `queuelog`)
 - option to purge ephemeral logs at higher frequency
 - fairly complete tests
+- setInterval group for handling Queue-specific tasks
 
 
 ##Installation
@@ -29,7 +30,6 @@ if (Meteor.isServer) {
 	// code to run on server at startup
 	Queue.add({command:'console.log("queue called now");'});
 	console.log('about to run queue');
-	Queue.run();
   });
 }
 ```
@@ -61,30 +61,14 @@ if (Meteor.isServer) {
 "Houston is a zero-config Meteor Admin, modeled after Django Admin, intended as a simple way for developers to give end-users (or themselves) an easy way to view and manipulate their app's data.""
 https://github.com/gterrono/houston
 
-Houston can be used for CRUD of queued jobs.  It can also be used to view logs.
+Houston can be used for CRUD of queued jobs.  It can also be used for viewing/purging logs.
 
-First, you need houston
+All you need is to install houston
 
 ```sh
 meteor add houston:admin
 ```
-
-Then in some file available on the server:
-
-
-```javascript
-if (Meteor.isServer) {
-	if (typeof Houston != "undefined"  ) {
-		Houston.methods("queue", {
-			"Run Now": function (queue) {
-				Queue.process(queue);
-				return queue.command + " completed.";
-			}
-			});
-		}
-
-	}
-```
+A "Run Now" button will appear above all queued tasks.
 
 
 ## Examples
@@ -107,13 +91,13 @@ if (Meteor.isServer) {
 	Queue.add({command:'console.log("queue called in THE FUTURE");',execute_after:future});
 	future.setMinutes(future.getMinutes() + 1);
 	Queue.add({command:'console.log("THE FUTURE a bit later");',execute_after:future});
-	Meteor.setInterval(function(){Queue.run()}, 5000); /* once every five seconds */
-	Meteor.setInterval(function(){Queue.purgeOldLocks()}, 60000); /* once a minute */
-	Meteor.setInterval(function(){Queue.purgeCompletedTasks()}, 86400000); /* once a day */
-	Meteor.setInterval(function(){Queue.purgeLogs()}, 86400000); /* once a day */
+    Queue.setInterval('Main -- DONT STOP', 'Queue.run()', 5000); /* once every five seconds */
+    Queue.setInterval('purgeLocks', 'Queue.purgeOldLocks', 60000); /* once a minute */
+    Queue.setInterval('purgeCompleted', 'Queue.purgeCompletedTasks()', 86400000); /* once a day */
+    Queue.setInterval('purgeLogs','Queue.purgeLogs()', 86400000); /* once a day */
 }
 ```
 ## TODO
 
-- UI to Purge old Queues/edit pending jobs
+- Tests for setInterval
 - Method to include queue-ready functions that can be added to queue via UI menus
