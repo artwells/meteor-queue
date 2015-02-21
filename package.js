@@ -13,7 +13,6 @@ Package.on_use(function (api) {
     api.add_files('lib/model.js', 'server');
     api.export('Queue', ['client','server']);
     api.add_files('lib/server/server.js', 'server');
-    api.add_files('views/queueintervals.html', 'client');
     api.add_files('lib/client/client.js', 'client');
 });
 
