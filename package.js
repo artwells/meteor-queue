@@ -5,15 +5,16 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-    api.versionsFrom("METEOR@0.9.0");
-    api.use(['livedata', 'mongo-livedata'], 'server');
+    api.versionsFrom("METEOR@1.0.3");
+    api.use(['livedata', 'mongo-livedata'], ['server']);
     api.use(['templating'], 'client');
-    api.add_files('views/queueintervals.html', 'client');
+    api.use('houston:admin',['server','client'],{weak:true});
     api.add_files('queue.js', 'server');
     api.add_files('lib/model.js', 'server');
+    api.export('Queue', ['client','server']);
     api.add_files('lib/server/server.js', 'server');
+    api.add_files('views/queueintervals.html', 'client');
     api.add_files('lib/client/client.js', 'client');
-    api.export('Queue', 'server');
 });
 
 Package.on_test(function (api) {
