@@ -1,13 +1,13 @@
 Package.describe({
-    summary: "job queue for meteor",
+    summary: "job queue for meteor, using mongo and setInterval",
     version: "0.0.4",
     git: "https://github.com/artwells/meteor-queue.git"
 });
 
 Package.on_use(function (api) {
     api.versionsFrom("METEOR@1.0.3");
-    api.use(['livedata', 'mongo-livedata'], ['server']);
-    api.use('matb33:collection-hooks',['server'])
+    api.use('mongo',['server']);
+    api.use('matb33:collection-hooks',['server']);
     api.use(['templating'], 'client');
     api.use('houston:admin',['server','client'],{weak:true});
     api.add_files('queue.js', 'server');
@@ -18,6 +18,9 @@ Package.on_use(function (api) {
 });
 
 Package.on_test(function (api) {
+    api.versionsFrom("METEOR@1.0.3");
+    api.use('mongo',['server']);
+    api.use('matb33:collection-hooks',['server']);
     api.use('artwells:queue', 'server');
     api.use('tinytest', 'server');
     api.add_files('tests/server.js', 'server');

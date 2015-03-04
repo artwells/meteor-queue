@@ -94,7 +94,7 @@ Tinytest.add(
 	entry.command = "console.log('first test of name lock');";
 	entry.lock_name = lock_name;
 	var res = Queue.add(entry);
-	entriestoremove.push(res);
+	entriestoremove.push(res);-
 	test.isTrue(res, 'first entry failed');
 	secondentry.command = "console.log('second test of name lock');";
 	secondentry.lock_name = lock_name;
@@ -317,7 +317,7 @@ Tinytest.add(
 );
 
 
-/* @TOD: this function leaves an extra queue entry that doesn't make it into entriestoremove */
+/* @TODO: this function leaves an extra queue entry that doesn't make it into entriestoremove */
 Tinytest.add(
   'queue - test run',
   function (test) {
@@ -354,3 +354,24 @@ Tinytest.add(
 	});
   }
 );
+
+Tinytest.add(
+  'queue - test setInterval/clearInterval  (takes about 8 seconds)',
+  function (test) {
+  	Queue.log.remove({command: 'INTERVALTEST'});
+  	var commandstring = 'Queue.log.insert({command: "INTERVALTEST", status: "testlog", created_at: new Date()});';
+    var id = Queue.setInterval('fivesecondinterval', commandstring, 2000); /* once a day */
+    Meteor._sleepForMs(2000);
+	var logres =  Queue.log.find({command : 'INTERVALTEST'}).fetch();
+	test.equal(logres.length, 1, 'ran once after 2 seconds');
+    Meteor._sleepForMs(2000);
+	var logres =  Queue.log.find({command : 'INTERVALTEST'}).fetch();
+	test.equal(logres.length, 2, 'ran twice after four seconds');
+	Queue.clearInterval(id);
+    Meteor._sleepForMs(4000);
+	var logres =  Queue.log.find({command : 'INTERVALTEST'}).fetch();
+	test.equal(logres.length, 2, 'stopped after clearInterval');
+  	Queue.log.remove({command: 'INTERVALTEST'});
+  }
+);
+
