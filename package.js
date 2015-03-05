@@ -7,9 +7,9 @@ Package.describe({
 Package.on_use(function (api) {
     api.versionsFrom("METEOR@1.0.3");
     api.use('mongo',['server']);
-    api.use('matb33:collection-hooks',['server']);
+    api.use('matb33:collection-hooks@0.7.3',['server']);
     api.use(['templating'], 'client');
-    api.use('houston:admin',['server','client'],{weak:true});
+    api.use('houston:admin@2.0.2',['server','client'],{weak:true});
     api.add_files('queue.js', 'server');
     api.add_files('lib/model.js', 'server');
     api.export('Queue', ['client','server']);
