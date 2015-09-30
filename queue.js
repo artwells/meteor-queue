@@ -6,7 +6,7 @@ if (typeof Queue.logLife === "undefined") {
     Queue.logLife = 30; /* days to keep logfiles */
 }
 if (typeof Queue.ephemeralLogLife === "undefined") {
-    Queue.ephemeralLogLife = 1800000; /* microseconds to keep ephemeral log statuses */
+    Queue.ephemeralLogLife = 1800000; /* milliseconds to keep ephemeral log statuses */
 }
 if (typeof Queue.ephemeralLogStatuses === "undefined") {
     Queue.ephemeralLogStatuses = ['lockfailed','success']; /* statuses to purge from logs quickly */

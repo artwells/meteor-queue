@@ -10,7 +10,7 @@ Tinytest.add(
     function (test) {
         var savedLogLife = Queue.logLife;
         var savedEphemeralLogStatuses = Queue.ephemeralLogStatuses;
-        var ebefore = before = new Date();
+        var before = new Date();
         before.setDate(before.getDate() - 3000);
         Queue.log.insert({command: 'OLDTEST', status: 'testlog', created_at: before});
         Queue.logLife = 3000; /*assuming no one will need 3000 days of logs */
@@ -21,8 +21,9 @@ Tinytest.add(
         res = Queue.log.findOne({command: 'OLDTEST'});
         test.isUndefined(res, 'old log purge failed');
 
-        ebefore.setDate(ebefore.getTime() - Queue.ephemeralLogLife);
-        Queue.ephemeralLogStatuses = ['ephtest '];
+        var ebefore = new Date();
+        ebefore.setTime(ebefore.getTime() - Queue.ephemeralLogLife);
+        Queue.ephemeralLogStatuses = ['ephtest'];
         Queue.log.insert({command: 'OLDEPHEMERAL', status: 'ephtest', created_at: ebefore});
         var eres = Queue.log.findOne({command: 'OLDEPHEMERAL'});
         test.equal(eres.command, 'OLDEPHEMERAL', 'ephemeral log missing');
