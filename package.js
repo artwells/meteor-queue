@@ -1,7 +1,7 @@
 Package.describe({
     name: "artwells:queue",
     summary: "job queue for meteor, using mongo and setInterval",
-    version: "0.1.1",
+    version: "0.1.2",
     git: "https://github.com/artwells/meteor-queue.git"
 });
 
