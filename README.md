@@ -42,7 +42,7 @@ if (Meteor.isServer) {
 
 * `Queue.logLife`, default `30`. Days to keep logfiles.
 
-* `Queue.ephemeralLogLife`, default `1800000`. microseconds to keep ephemeral log statuses
+* `Queue.ephemeralLogLife`, default `1800000`. milliseconds to keep ephemeral log statuses
 
 * `Queue.ephemeralLogStatuses`, default `['lockfailed','success']`. statuses to purge from logs quickly;
 
