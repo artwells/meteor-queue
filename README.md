@@ -98,7 +98,7 @@ if (Meteor.isServer) {
     /* set maintenance tasks */
     Queue.setInterval('purgeLocks', 'Queue.purgeOldLocks', 60000); /* once a minute */
     Queue.setInterval('purgeCompleted', 'Queue.purgeCompletedTasks()', 86400000); /* once a day */
-    Queue.setInterval('purgeLogs','Queue.purgeLogs()', 86400000); /* once a day */
+    Queue.setInterval('purgeLogs','Queue.purgeOldLogs()', 86400000); /* once a day */
 
 }
 ```
