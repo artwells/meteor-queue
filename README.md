@@ -3,7 +3,7 @@ meteor-queue
 
 Job Queue for Meteor.js, backed by Mongo and setInterval
 
-##Features
+## Features
 - queued tasks executed by set priorities
 - start/stop/change setInterval events
 - schedule queued events in the future
@@ -18,7 +18,7 @@ Job Queue for Meteor.js, backed by Mongo and setInterval
 - option integration with houston:admin allowing limited GUI manipulation (changing/deleting/run now queued task, changing, stopping setInterval taks)
 
 
-##Installation
+## Installation
 ```sh
 meteor add artwells:queue
 ```
